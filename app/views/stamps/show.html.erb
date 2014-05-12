@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Shop:</strong>
+  <%= @stamp.shop %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @stamp.name %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @stamp.image %>
+</p>
+
+<p>
+  <strong>Rotate:</strong>
+  <%= @stamp.rotate %>
+</p>
+
+<p>
+  <strong>Transparency:</strong>
+  <%= @stamp.transparency %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @stamp.position %>
+</p>
+
+<p>
+  <strong>Tiled:</strong>
+  <%= @stamp.tiled %>
+</p>
+
+<%= link_to 'Edit', edit_stamp_path(@stamp) %> |
+<%= link_to 'Back', stamps_path %>

@@ -1,0 +1,37 @@
+<h1>Listing stamps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Shop</th>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Rotate</th>
+      <th>Transparency</th>
+      <th>Position</th>
+      <th>Tiled</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stamps.each do |stamp| %>
+      <tr>
+        <td><%= stamp.shop %></td>
+        <td><%= stamp.name %></td>
+        <td><%= stamp.image %></td>
+        <td><%= stamp.rotate %></td>
+        <td><%= stamp.transparency %></td>
+        <td><%= stamp.position %></td>
+        <td><%= stamp.tiled %></td>
+        <td><%= link_to 'Show', stamp %></td>
+        <td><%= link_to 'Edit', edit_stamp_path(stamp) %></td>
+        <td><%= link_to 'Destroy', stamp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stamp', new_stamp_path %>
