@@ -8,7 +8,13 @@
 </head>
 <body>
 
-<%= yield %>
+<nav>
+  <h1><%= image_tag "logo_large.png", alt: "WetStamp", class: "logo" %></h1>
+</nav>
+
+<main>
+  <%= yield %>
+</main>
 
 </body>
 </html>
