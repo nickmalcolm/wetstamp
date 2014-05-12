@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140512092010) do
+ActiveRecord::Schema.define(version: 20140512093017) do
+
+  create_table "products", force: true do |t|
+    t.integer  "shop_id"
+    t.integer  "shopify_id"
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "products", ["shop_id"], name: "index_products_on_shop_id", using: :btree
 
   create_table "shops", force: true do |t|
     t.string   "domain"
