@@ -1,5 +1,7 @@
-@import "bootstrap";
-@import "bootstrap/theme";
+@import '_variables';
+@import 'bootstrap';
+@import 'bootstrap_overrides';
+@import 'navigation';
 
 html{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -7,13 +9,14 @@ html{
   line-height: 20px;
 }
 
-nav .logo{
-  width: 200px;
-}
-
 .brand {
   font-family: "HelveticaNeue-CondensedBold";
   letter-spacing: 2px;
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.bg-success{
+  background-color: $brand-success;
+  color: #fff;
 }

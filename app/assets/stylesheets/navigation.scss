@@ -1,0 +1,24 @@
+header.navbar {
+
+  padding: 20px 0;
+
+  .navbar-header {
+    .navbar-brand {
+      font-size: 30px;
+      line-height: 1.1;
+      padding: 10px 15px;
+    }
+  }
+
+  li.bg-success {
+
+    a {
+      color: #fff;
+
+      &:hover, &:focus {
+        background-color: darken($brand-success, 10%);
+      }
+    }
+
+  }
+}
