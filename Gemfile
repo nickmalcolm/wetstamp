@@ -28,7 +28,7 @@ gem 'spring',        group: :development
 gem 'simple_form', '~> 3.1.0.rc1'
 gem 'bootstrap-sass', '~> 3.1.1'
 
-gem 'shopify_api', '~> 3.2.3'
+gem 'shopify_app', '~> 4.4.4'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

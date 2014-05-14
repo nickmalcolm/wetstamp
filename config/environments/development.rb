@@ -34,4 +34,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.shopify.api_key = '2e1af218aef0908861de14c227c4915e'
+  config.shopify.secret = 'c2139f7706cbfa7e0b29f5be14a6277d'
 end

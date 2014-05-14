@@ -1,4 +1,5 @@
 class StampsController < ApplicationController
+  around_filter :shopify_session
   before_action :set_stamp, only: [:show, :edit, :update, :destroy]
 
   # GET /stamps

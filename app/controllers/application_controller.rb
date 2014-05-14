@@ -1,5 +1,14 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  protect_from_forgery
+
+  # It will re-login if a user tries to access the application from a different shop
+  before_filter :login_again_if_different_shop
+  
+  def current_shop
+    if session[:shop_id]
+      @current_shop ||= Shop.find(session[:shop_id])
+    end
+  end
+  helper_method :current_shop
+  
 end
