@@ -33,12 +33,17 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if current_shop %>
+          
             <li class="">
               <%= link_to "Log Out", logout_path, method: :delete, data: {no_turbolink: ""} %>
             </li>
           <% else %>
-            <li class="bg-success"><a href="#">Sign Up Free</a></li>
-            <li class=""><a href="#">Log In</a></li>
+            <li class="bg-success">
+              <%= link_to "Sign Up Free", login_path %>
+            </li>
+            <li class="">
+              <%= link_to "Log In", login_path %>
+            </li>
           <% end %>
           
         </ul>

@@ -10,13 +10,12 @@ class SessionsController < ApplicationController
   def show
     if response = request.env['omniauth.auth']
 
-      sess = ShopifyAPI::Session.new(params[:shop], response['credentials']['token'])
-      session[:shopify] = sess
-
       # Create, or Find & Update, the Shop
       shop = Shop.find_or_initialize_by(domain: params[:shop])
       shop.api_password = response['credentials']['token']
       shop.save
+
+      session[:shop_id] = shop.id
 
       redirect_to return_address, notice: "Logged in"
     else
@@ -26,7 +25,7 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-    session[:shopify] = nil
+    session[:shop_id] = nil
     flash[:notice] = "Successfully logged out."
     
     redirect_to :action => 'new'

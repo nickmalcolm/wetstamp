@@ -1,11 +1,13 @@
 class StampsController < ApplicationController
   around_filter :shopify_session
+  before_filter :require_shop
   before_action :set_stamp, only: [:show, :edit, :update, :destroy]
 
   # GET /stamps
   # GET /stamps.json
   def index
-    @stamps = Stamp.all
+    @stamps = @current_shop.stamps
+    @products = ShopifyAPI::Product.all
   end
 
   # GET /stamps/1
@@ -15,7 +17,7 @@ class StampsController < ApplicationController
 
   # GET /stamps/new
   def new
-    @stamp = Stamp.new
+    @stamp = @current_shop.stamps.new
   end
 
   # GET /stamps/1/edit
@@ -25,7 +27,7 @@ class StampsController < ApplicationController
   # POST /stamps
   # POST /stamps.json
   def create
-    @stamp = Stamp.new(stamp_params)
+    @stamp = @current_shop.stamps.new(stamp_params)
 
     respond_to do |format|
       if @stamp.save
@@ -65,11 +67,11 @@ class StampsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stamp
-      @stamp = Stamp.find(params[:id])
+      @stamp = @current_shop.stamps.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def stamp_params
-      params.require(:stamp).permit(:shop_id, :name, :image, :rotate, :transparency, :position, :tiled)
+      params.require(:stamp).permit(:name, :image, :rotate, :transparency, :position, :tiled)
     end
 end

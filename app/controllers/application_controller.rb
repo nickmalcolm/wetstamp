@@ -1,8 +1,19 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  # It will re-login if a user tries to access the application from a different shop
-  before_filter :login_again_if_different_shop
+  def shopify_session
+    if current_shop
+      begin
+        @current_shop.connect_to_shopify
+        yield
+      ensure 
+        ShopifyAPI::Base.clear_session
+      end
+    else
+      session[:return_to] = request.fullpath if request.get?
+      redirect_to login_path
+    end
+  end
   
   def current_shop
     if session[:shop_id]
@@ -10,5 +21,12 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :current_shop
+
+  def require_shop
+    if current_shop.nil?
+      session[:return_to] = request.fullpath if request.get?
+      redirect_to login_path
+    end
+  end
   
 end
