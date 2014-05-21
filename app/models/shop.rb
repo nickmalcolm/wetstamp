@@ -2,6 +2,7 @@ class Shop < ActiveRecord::Base
   class ShopifySessionInvalidError < StandardError; end
 
   has_many :stamps
+  has_many :stamp_images
 
   validates :domain, presence: {allow_blank: false}, uniqueness: true
 

@@ -30,3 +30,6 @@ $(document).ready ->
 
   $("a[data-role='watermark-customize']").on "click", () ->
     $("form").toggle()
+
+  $("#new_stamp_image").on "ajax:remotipartComplete", (e, data) ->
+    new_stamp = JSON.parse(data.responseText)

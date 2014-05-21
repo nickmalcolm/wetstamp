@@ -30,6 +30,7 @@ gem 'bootstrap-sass', '~> 3.1.1'
 
 gem "fog", "~>1.20", require: "fog/aws/storage"
 gem 'carrierwave', '~> 0.10.0'
+gem 'remotipart', '~> 1.2.1', :git => 'git://github.com/nickmalcolm/remotipart.git'
 
 gem 'shopify_app', '~> 4.4.4'
 

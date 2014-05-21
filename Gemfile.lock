@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/nickmalcolm/remotipart.git
+  revision: 5366076cfd64fc00f937de13ad5fbe44dbff3262
+  specs:
+    remotipart (1.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -211,6 +217,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   rails (~> 4.1.0)
+  remotipart (~> 1.2.1)!
   rmagick
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

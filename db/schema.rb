@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140512094135) do
+ActiveRecord::Schema.define(version: 20140521110502) do
 
   create_table "product_images", force: true do |t|
     t.integer  "product_id"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 20140512094135) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "stamp_images", force: true do |t|
+    t.integer  "shop_id"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stamp_images", ["shop_id"], name: "index_stamp_images_on_shop_id", using: :btree
 
   create_table "stamps", force: true do |t|
     t.integer  "shop_id"

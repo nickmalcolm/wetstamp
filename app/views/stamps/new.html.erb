@@ -65,9 +65,20 @@
   </div>
 </div>
 
+
+<%= form_for(StampImage.new, url: upload_stamps_path, html: {multipart: :true}, remote: true) do |f| %>
+
+  <div class="field">
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
 <%= simple_form_for(@stamp) do |f| %>
 
-  <%= f.input :image %>
   <%= f.input :name %>
   <%= f.input :rotate %>
   <%= f.input :transparency %>

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :stamps
+  resources :stamps do
+    collection do
+      post 'upload', to: "stamp_images#create"
+    end
+  end
 
   controller :sessions do  
     get 'login' => :new
