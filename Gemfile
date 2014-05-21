@@ -28,6 +28,8 @@ gem 'spring',        group: :development
 gem 'simple_form', '~> 3.1.0.rc1'
 gem 'bootstrap-sass', '~> 3.1.1'
 
+gem 'carrierwave', '~> 0.10.0'
+
 gem 'shopify_app', '~> 4.4.4'
 
 # Use ActiveModel has_secure_password
