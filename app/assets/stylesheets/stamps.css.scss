@@ -1,3 +1,25 @@
 // Place all the styles related to the Stamps controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.panel {
+  img{
+    max-width: 100%;
+  }
+}
+
+.watermark-presets {
+  a {
+    text-decoration: none;
+    cursor: pointer;
+
+    img {
+      padding: 5%;
+      width: 40%;
+
+      &:hover{
+        opacity: 0.9;
+      }
+    }
+  }
+}

@@ -1,9 +1,79 @@
 <div class="row">
   <div class="col-xs-12">
     <h1>New stamp</h1>
-
-    <%= render 'form' %>
-
     <%= link_to 'Back', stamps_path %>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xs-8">
+
+    <div class="panel panel-default" style="background-color:#eee">
+      <div class="panel-body text-center">
+        <%= image_tag "http://cdn.shopify.com/s/files/1/0083/9442/products/The-Random-Products-Of-CES-2011-11.jpeg?v=1399452672" %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-xs-4 watermark-presets">
+    
+    <a data-role="watermark-preset" 
+      data-rotate="0" 
+      data-position="<%= Magick::SouthEastGravity.to_i %>"
+      data-tiled="0"
+      data-no-turbolink>
+      <%= image_tag "presets/bottom_right.png", alt: "Bottom Right" %>
+    </a>
+
+    <a data-role="watermark-preset"
+      data-rotate="-90"
+      data-position="<%= Magick::SouthWestGravity.to_i %>"
+      data-tiled="0"
+      data-no-turbolink>
+      <%= image_tag "presets/bottom_left_vertical.png", alt: "Bottom Left, Vertical" %>
+    </a>
+
+    <a data-role="watermark-preset"
+      data-rotate="-45"
+      data-position="<%= Magick::CenterGravity.to_i %>"
+      data-tiled="0"
+      data-no-turbolink>
+      <%= image_tag "presets/center_neg45deg.png", alt: "Centered, negative 45 degree angle" %>
+    </a>
+
+    <a data-role="watermark-preset"
+      data-rotate="0"
+      data-position="<%= Magick::CenterGravity.to_i %>"
+      data-tiled="0"
+      data-no-turbolink>
+      <%= image_tag "presets/center_horizontal.png", alt: "Centered and Horizontal" %>
+    </a>
+
+    <a data-role="watermark-preset"
+      data-rotate="-45"
+      data-position="<%= Magick::CenterGravity.to_i %>"
+      data-tiled="1"
+      data-no-turbolink>
+      <%= image_tag "presets/tiled_neg45deg.png", alt: "Negative 45 degrees, and tiled repeatedly" %>
+    </a>
+
+    <a data-role="watermark-customize" data-no-turbolink>
+      <%= image_tag "presets/custom.png", alt: "Custom" %>
+    </a>
+
+  </div>
+</div>
+
+<%= simple_form_for(@stamp) do |f| %>
+
+  <%= f.input :image %>
+  <%= f.input :name %>
+  <%= f.input :rotate %>
+  <%= f.input :transparency %>
+  <%= f.input :position %>
+  <%= f.input :tiled %>
+  
+  <%= f.button :submit, class: "btn-success" %>
+
+<% end %>

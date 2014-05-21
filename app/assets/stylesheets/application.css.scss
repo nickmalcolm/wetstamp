@@ -2,11 +2,13 @@
 @import 'bootstrap';
 @import 'bootstrap_overrides';
 @import 'navigation';
+@import 'stamps';
 
 html{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 20px;
+  padding-bottom: 20px;
 }
 
 .brand {
@@ -19,4 +21,8 @@ html{
 .bg-success{
   background-color: $brand-success;
   color: #fff;
+}
+
+.padding-bottom{
+  padding-bottom: 20px;
 }

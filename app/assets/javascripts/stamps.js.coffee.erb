@@ -1,0 +1,32 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+
+
+Wetstamp.DEFAULTS =
+    rotate: 0
+    transparency: 0.25
+    position: <%= Magick::SouthEastGravity.to_i %>
+    tiled: false
+
+Wetstamp.StampPreset = (preset) ->
+
+  {rotate, transparency, position, tiled} = $.extend( {}, Wetstamp.DEFAULTS, preset.data() );
+
+  applyToForm = () =>
+    $("input[name='stamp[rotate]']").val(rotate)
+    $("input[name='stamp[transparency]']").val(transparency)
+    $("input[name='stamp[position]']").val(position)
+    $("input[name='stamp[tiled]']").prop("checked", tiled)
+
+  preset.on "click", () =>
+    applyToForm()
+
+
+$(document).ready ->
+
+  for presetLink in $("a[data-role='watermark-preset']")
+    new Wetstamp.StampPreset($(presetLink))
+
+  $("a[data-role='watermark-customize']").on "click", () ->
+    $("form").toggle()
