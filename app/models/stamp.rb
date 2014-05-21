@@ -1,4 +1,6 @@
 class Stamp < ActiveRecord::Base
+  mount_uploader :image, WetstampUploader
+
   POSITIONS = [
     Magick::NorthWestGravity.to_i,  Magick::NorthGravity.to_i,  Magick::NorthEastGravity.to_i,
     Magick::WestGravity.to_i,       Magick::CenterGravity.to_i, Magick::EastGravity.to_i,
