@@ -32,3 +32,7 @@ A tiled and rotated watermark.
     # Dissolve the tiled watermark on to the image
     image.dissolve(rtiled, 0.25, 1.0, Magick::CenterGravity).write("watermarked.jpg")
 
+
+## Test Shops
+
+quitzon-and-sons6225.myshopify.com
