@@ -9,18 +9,35 @@ Wetstamp.DEFAULTS =
     position: <%= Magick::SouthEastGravity.to_i %>
     tiled: false
 
-Wetstamp.StampPreset = (preset) ->
+class Wetstamp.StampPreset
 
-  {rotate, transparency, position, tiled} = $.extend( {}, Wetstamp.DEFAULTS, preset.data() );
+  constructor: (preset) ->
+    {@rotate, @transparency, @position, @tiled} = $.extend( {}, Wetstamp.DEFAULTS, preset.data() );
+    preset.on "click", () =>
+      @applyToForm()
+    @
 
-  applyToForm = () =>
-    $("input[name='stamp[rotate]']").val(rotate)
-    $("input[name='stamp[transparency]']").val(transparency)
-    $("input[name='stamp[position]']").val(position)
-    $("input[name='stamp[tiled]']").prop("checked", tiled)
+  applyToForm: =>
+    $("input[name='stamp[rotate]']").val(@rotate)
+    $("input[name='stamp[transparency]']").val(@transparency)
+    $("input[name='stamp[position]']").val(@position)
+    $("input[name='stamp[tiled]']").prop("checked", @tiled)
+    @
 
-  preset.on "click", () =>
-    applyToForm()
+class Wetstamp.Stamp
+
+  constructor: (json) ->
+    @id = json.id
+    @url = json.image.url
+
+  urlObject: =>
+    obj = document.createElement('a')
+    obj.href = @url
+    obj
+
+  fileName: =>
+    pathArr = @urlObject().pathname.split('/')
+    pathArr[pathArr.length - 1]
 
 
 $(document).ready ->
@@ -32,4 +49,7 @@ $(document).ready ->
     $("form").toggle()
 
   $("#new_stamp_image").on "ajax:remotipartComplete", (e, data) ->
-    new_stamp = JSON.parse(data.responseText)
+    stamp_json = JSON.parse(data.responseText)
+    stamp = new Wetstamp.Stamp(stamp_json)
+    window.foo = stamp
+    $("#watermark-preview watermark").html("<img src='"+stamp.url+"' alt='"+stamp.fileName()+"'/>")
