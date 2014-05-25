@@ -23,3 +23,18 @@
     }
   }
 }
+
+#watermark-preview{
+
+  #product-image{
+    position: relative;
+    display: inline-block;
+
+    #watermark img{
+      width: 25%;
+      position: absolute;
+      -webkit-transform-origin: bottom left;
+      -webkit-transition: -webkit-transform 1s linear;
+    }
+  }
+}
