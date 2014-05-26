@@ -1,5 +1,4 @@
 class Stamp < ActiveRecord::Base
-  mount_uploader :image, WetstampUploader
 
   POSITIONS = [
     Magick::NorthWestGravity.to_i,  Magick::NorthGravity.to_i,  Magick::NorthEastGravity.to_i,
@@ -8,8 +7,10 @@ class Stamp < ActiveRecord::Base
   ]
 
   belongs_to :shop
+  belongs_to :stamp_image
 
   validates :shop, presence: true
+  validates :stamp_image, presence: true
   validates :rotate, numericality: {greater_than_or_equal_to: -360, less_than_or_equal_to: 360}
   validates :transparency, numericality: {greater_than_or_equal_to: 0, less_than_or_equal_to: 1}
   validates :position, inclusion: POSITIONS
