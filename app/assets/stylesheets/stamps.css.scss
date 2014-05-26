@@ -29,12 +29,41 @@
   #product-image{
     position: relative;
     display: inline-block;
+    overflow: hidden;
 
     #watermark img{
+      max-width: none;
       width: 25%;
       position: absolute;
-      -webkit-transform-origin: bottom left;
-      -webkit-transition: -webkit-transform 1s linear;
+
+      &.bottom{
+        bottom: 0;
+      }
+
+      &.left{
+        left: 0
+      }
+
+      &.right{
+        right: 0;
+      }
+
+      &.center{
+        top: 50%;
+        left: 50%;
+        -webkit-transform-origin: center;
+        -webkit-transform: translate(-50%,-50%);
+
+        &.neg45deg{
+          -webkit-transform: translate(-50%,-50%) rotate(-45deg);
+        }
+      }
+
+      &.vertical{
+        -webkit-transform-origin: bottom left;
+        -webkit-transform: rotate(-90deg) translate(0, 100%);
+      }
+
     }
   }
 }

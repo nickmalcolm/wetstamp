@@ -2,49 +2,23 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-Wetstamp.POSITIONS = 
-  <%= Magick::NorthWestGravity.to_i %>:
-    {top: 0, left: 0}
-  <%= Magick::NorthGravity.to_i %>:
-    {top: 0, left: "50%", translate: {x: "-50%", y: "0%"}}
-  <%= Magick::NorthEastGravity.to_i %>:
-    {top: 0, right: 0}
-  <%= Magick::WestGravity.to_i %>:
-    {top: "50%", left: 0}
-  <%= Magick::CenterGravity.to_i %>:
-    {top: "50%", left: "50%", translate: {x: "-50%", y: "-50%"}}
-  <%= Magick::EastGravity.to_i %>:
-    {top: "50%", right: 0}
-  <%= Magick::SouthWestGravity.to_i %>:
-    {bottom: 0, left: 0}
-  <%= Magick::SouthGravity.to_i %>:
-    {bottom: 0, left: "50%", translate: {x: "-50%", y: "0%"}}
-  <%= Magick::SouthEastGravity.to_i %>:
-    {bottom: 0, right: 0}
-
 Wetstamp.DEFAULTS =
+    class: "bottom right"
     rotate: 0
     transparency: 0.25
-    translate:
-      x: 0
-      y: 0
     position: <%= Magick::SouthEastGravity.to_i %>
     tiled: false
 
 class Wetstamp.StampPreset
 
-  constructor: (preset) ->
-    {@rotate, @transparency, @position, @tiled, @translate} = $.extend( {}, Wetstamp.DEFAULTS, preset.data() );
+  constructor: (el) ->
+    @el = el
+    {@class, @rotate, @transparency, @position, @tiled, @translate} = $.extend( {}, Wetstamp.DEFAULTS, @el.data() );
     
-    @positionID = @position
-    @position  = Wetstamp.POSITIONS[parseInt(@positionID, 10)]
-
-    if @position["translate"]
-      @translate = @position["translate"]
-
-    preset.on "click", () =>
+    @el.on "click", () =>
       @applyToForm()
-      Wetstamp.stamp.setPosition(@)
+      Wetstamp.stamp.setClass(@class)
+      Wetstamp.stamp.setStyle(@style())
     @
 
   applyToForm: =>
@@ -54,31 +28,8 @@ class Wetstamp.StampPreset
     $("input[name='stamp[tiled]']").prop("checked", @tiled)
     @
 
-  positionStyle: =>
-    (for pos in ["top", "right", "bottom", "left"]
-      val = @position[pos]
-      if val?
-        pos+":"+val+";"
-    ).join("")
-
-  rotateStyle: =>
-    "rotate("+@rotate+"deg)"
-
-  translateStyle: =>
-    if (@rotate == -90) && (@positionID == <%= Magick::SouthWestGravity.to_i %>)
-      @translate =
-        x: 0
-        y: "100%"
-    "translate(" + @translate.x + "," + @translate.y + ")"
-
-  transformStyle: =>
-    style = "-webkit-transform: "+[@rotateStyle(), @translateStyle()].join(" ")+";"
-
-  transparencyStyle: =>
-    "opacity: "+@transparency
-
   style: =>
-    @positionStyle() + @transformStyle() + @transparencyStyle()
+    "opacity: "+@transparency+";"
 
 class Wetstamp.Stamp
 
@@ -88,6 +39,7 @@ class Wetstamp.Stamp
     @el = $("#watermark")
     @redraw()
     @style = ""
+    @class = ""
     @
 
   urlObject: =>
@@ -99,12 +51,16 @@ class Wetstamp.Stamp
     pathArr = @urlObject().pathname.split('/')
     pathArr[pathArr.length - 1]
 
-  setPosition: (stamp_preset) =>
-    @style = stamp_preset.style()
+  setClass: (klass) =>
+    @klass = klass
+    @redraw()
+
+  setStyle: (style) =>
+    @style = style
     @redraw()
 
   redraw: =>
-    @el.html("<img src='"+@url+"' alt='"+@fileName()+"' style='"+@style+"'/>")
+    @el.html("<img src='"+@url+"' alt='"+@fileName()+"' class='"+@klass+"' style='"+@style+"'/>")
 
 $(document).ready ->
 
@@ -112,7 +68,7 @@ $(document).ready ->
   for presetLink in $("a[data-role='watermark-preset']")
     preset = new Wetstamp.StampPreset($(presetLink))
     Wetstamp.STAMP_PRESETS.push preset
-
+  
   $("a[data-role='watermark-customize']").on "click", () ->
     $("form").toggle()
 
@@ -120,4 +76,4 @@ $(document).ready ->
   stamp_json = {id: 1, image: {url: "<%= StampImage.last.image.url %>" }}#JSON.parse(data.responseText)
   stamp = new Wetstamp.Stamp(stamp_json)
   Wetstamp.stamp = stamp
-  Wetstamp.stamp.setPosition(Wetstamp.STAMP_PRESETS[0])
+  Wetstamp.stamp.setClass(Wetstamp.STAMP_PRESETS[0])
