@@ -17,15 +17,15 @@ class Wetstamp.StampPreset
     
     @el.on "click", () =>
       @applyToForm()
-      Wetstamp.stamp.setClass(@class)
-      Wetstamp.stamp.setStyle(@style())
+      if Wetstamp.stamp?
+        Wetstamp.stamp.setClassAndStyleFromPreset(@)
     @
 
   applyToForm: =>
-    $("input[name='stamp[rotate]']").val(@rotate)
-    $("input[name='stamp[transparency]']").val(@transparency)
-    $("input[name='stamp[position]']").val(@position)
-    $("input[name='stamp[tiled]']").prop("checked", @tiled)
+    Wetstamp.form.rotate = @rotate
+    Wetstamp.form.transparency = @transparency
+    Wetstamp.form.position = @position
+    Wetstamp.form.tiled = @tiled
     @
 
   style: =>
@@ -51,16 +51,73 @@ class Wetstamp.Stamp
     pathArr = @urlObject().pathname.split('/')
     pathArr[pathArr.length - 1]
 
-  setClass: (klass) =>
-    @klass = klass
-    @redraw()
+  updateFile: (json) ->
+    @id = json.id
+    @url = json.image.url
+    @redraw
 
-  setStyle: (style) =>
-    @style = style
+  setClassAndStyleFromPreset: (preset) =>
+    @klass = preset.class
+    @style = preset.style()
     @redraw()
 
   redraw: =>
     @el.html("<img src='"+@url+"' alt='"+@fileName()+"' class='"+@klass+"' style='"+@style+"'/>")
+
+class Wetstamp.StampForm
+
+  constructor: (el) ->
+
+    @el = el
+
+    # Things to watch and listen to
+    @stampImageForm = @el.find("form#new_stamp_image")
+    @sizeInput = @el.find("input#stamp_size")
+    @transparencyInput = @el.find("input#stamp_transparency")
+
+    @stampImageForm.find("input").on "change", () =>
+      @stampImageForm.submit()
+
+    @stampImageForm.on "ajax:remotipartComplete", (e, data) ->
+      stamp_json = JSON.parse(data.responseText)
+      if Wetstamp.stamp?
+        Wetstamp.stamp.updateFile(stamp_json)
+      else
+        Wetstamp.stamp = new Wetstamp.Stamp(stamp_json)
+        Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0])
+
+    @el.find("button").on "click", (event) =>
+      btn = $(event.currentTarget)
+      delta = parseFloat(btn.data('delta'))
+      target = $("#"+btn.data('for'))
+
+      currentVal = parseFloat(target.val()) || 0
+      nextVal = currentVal + delta
+      max = parseInt(target.prop('max'))
+      min = parseInt(target.prop('min'))
+      if isFinite(max)
+        nextVal = Math.min(max, nextVal)
+      if isFinite(min)
+        nextVal = Math.max(min, nextVal)
+
+      target.val( nextVal )
+
+      # 
+      # el.parent
+
+
+    # Things we'll submit
+    {@stampImageId, @size, @transparency, @position, @rotate, @tiled} = {}
+
+    @
+
+  errors: =>
+    errors = []
+    errors.push "You need to upload a watermark" unless @stampImageId?
+
+  submit: =>
+    return false if @errors().length
+    console.log @stampImageId, @size, @transparency, @position, @rotate, @tiled
 
 $(document).ready ->
 
@@ -69,11 +126,4 @@ $(document).ready ->
     preset = new Wetstamp.StampPreset($(presetLink))
     Wetstamp.STAMP_PRESETS.push preset
   
-  $("a[data-role='watermark-customize']").on "click", () ->
-    $("form").toggle()
-
-  # $("#new_stamp_image").on "ajax:remotipartComplete", (e, data) ->
-  stamp_json = {id: 1, image: {url: "<%= StampImage.last.image.url %>" }}#JSON.parse(data.responseText)
-  stamp = new Wetstamp.Stamp(stamp_json)
-  Wetstamp.stamp = stamp
-  Wetstamp.stamp.setClass(Wetstamp.STAMP_PRESETS[0])
+  Wetstamp.form = new Wetstamp.StampForm($("#wetstamp-form"))

@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" id="wetstamp-form">
   <div class="col-xs-12 col-md-4">
     <%= form_for(StampImage.new, url: upload_stamps_path, html: {multipart: :true}, remote: true) do |f| %>
 
@@ -97,19 +97,19 @@
   </div>
 
   <div class="col-xs-12 col-md-4">
-    <label for="stamp_image_image">Size</label>
+    <label for="stamp_size">Size</label>
     <div class="input-group">
 
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
+        <button class="btn btn-default" type="button" data-delta="-5" data-for="stamp_size">
           <span class="glyphicon glyphicon-minus"></span>
         </button>
       </span>
       
-      <input type="text" class="form-control" placeholder="e.g. 25%">
+      <input type="text" class="numeric decimal optional form-control" id="stamp_size" min="0" placeholder="e.g. 25%" value="25">
       
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
+        <button class="btn btn-default" type="button" data-delta="5" data-for="stamp_size">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </span>
@@ -119,23 +119,23 @@
 
 
   <div class="col-xs-12 col-md-4">
-    <label for="stamp_image_image">Transparency</label>
+    <label for="stamp_transparency">Transparency</label>
     <div class="input-group">
 
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
+        <button class="btn btn-default" type="button" data-delta="-5" data-for="stamp_transparency">
           <span class="glyphicon glyphicon-minus"></span>
         </button>
       </span>
 
-      <input type="text" class="form-control" placeholder="e.g. 25%">
+      <input type="text" class="numeric decimal optional form-control" id="stamp_transparency" min="0" max="100" placeholder="e.g. 25%" value="25">
       
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
+        <button class="btn btn-default" type="button" data-delta="5" data-for="stamp_transparency">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </span>
-      
+
     </div>
   </div>
 
@@ -148,16 +148,3 @@
     </p>
   </div>
 </div>
-
-  <%= simple_form_for(@stamp) do |f| %>
-
-    
-
-    <%= f.input :name, as: :hidden %>
-    <%= f.input :rotate, as: :hidden %>
-    <%= f.input :position, as: :hidden %>
-    <%= f.input :tiled, as: :hidden %>
-
-  <% end %>
-
-
