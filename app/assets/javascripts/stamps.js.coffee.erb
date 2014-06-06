@@ -5,7 +5,6 @@
 Wetstamp.DEFAULTS =
     class: "bottom right"
     rotate: 0
-    transparency: 0.25
     position: <%= Magick::SouthEastGravity.to_i %>
     tiled: false
 
@@ -23,13 +22,9 @@ class Wetstamp.StampPreset
 
   applyToForm: =>
     Wetstamp.form.rotate = @rotate
-    Wetstamp.form.transparency = @transparency
     Wetstamp.form.position = @position
     Wetstamp.form.tiled = @tiled
     @
-
-  style: =>
-    "opacity: "+@transparency+";"
 
 class Wetstamp.Stamp
 
@@ -38,8 +33,9 @@ class Wetstamp.Stamp
     @url = json.image.url
     @el = $("#watermark")
     @redraw()
-    @style = ""
     @class = ""
+    @size = 25
+    @transparency = 0.25
     @
 
   urlObject: =>
@@ -58,11 +54,19 @@ class Wetstamp.Stamp
 
   setClassAndStyleFromPreset: (preset) =>
     @klass = preset.class
-    @style = preset.style()
+    @redraw()
+
+  setSize: (size) =>
+    @size = size
+    @redraw()
+
+  setTransparency: (transparency) =>
+    @transparency = transparency
     @redraw()
 
   redraw: =>
-    @el.html("<img src='"+@url+"' alt='"+@fileName()+"' class='"+@klass+"' style='"+@style+"'/>")
+    style = "opacity: #{@transparency}; width: #{@size}%;"
+    @el.html("<img src='"+@url+"' alt='"+@fileName()+"' class='"+@klass+"' style='"+style+"'/>")
 
 class Wetstamp.StampForm
 
@@ -101,6 +105,15 @@ class Wetstamp.StampForm
         nextVal = Math.max(min, nextVal)
 
       target.val( nextVal )
+      target.trigger("change")
+
+    @el.find("input").on "change keyup", (event) ->
+      console.log $(@).val()
+      switch $(@).attr('id')
+        when "stamp_size"
+          Wetstamp.stamp.setSize $(@).val()
+        when "stamp_transparency"
+          Wetstamp.stamp.setTransparency $(@).val() / 100
 
       # 
       # el.parent
@@ -127,3 +140,7 @@ $(document).ready ->
     Wetstamp.STAMP_PRESETS.push preset
   
   Wetstamp.form = new Wetstamp.StampForm($("#wetstamp-form"))
+
+  url = "<%= StampImage.last.image.url %>"
+  Wetstamp.stamp = new Wetstamp.Stamp({id: -1, image: {url: url}})
+  Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0])
