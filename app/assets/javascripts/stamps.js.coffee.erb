@@ -115,9 +115,6 @@ class Wetstamp.StampForm
         when "stamp_transparency"
           Wetstamp.stamp.setTransparency 1 - ( $(@).val() / 100 )
 
-      # 
-      # el.parent
-
 
     # Things we'll submit
     {@stampImageId, @size, @transparency, @position, @rotate, @tiled} = {}
@@ -141,6 +138,8 @@ $(document).ready ->
   
   Wetstamp.form = new Wetstamp.StampForm($("#wetstamp-form"))
 
+  <% if Rails.env.development? %>
   url = "<%= StampImage.last.image.url %>"
   Wetstamp.stamp = new Wetstamp.Stamp({id: -1, image: {url: url}})
   Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0])
+  <% end %>

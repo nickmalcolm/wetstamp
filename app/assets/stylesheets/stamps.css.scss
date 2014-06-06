@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .panel {
+  height: 100%;
   img{
     max-width: 100%;
   }
@@ -10,12 +11,15 @@
 
 .watermark-presets {
   a {
+    @include make-xs-column(3);
+    @include make-sm-column(2);
+    @include make-md-column(4);
     text-decoration: none;
     cursor: pointer;
 
     img {
-      padding: 5%;
-      width: 40%;
+      width: 100%;
+      padding: 15px 0;
 
       &:hover{
         opacity: 0.9;
