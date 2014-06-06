@@ -128,8 +128,7 @@ $(document).ready ->
   
   Wetstamp.form = new Wetstamp.StampForm($("#wetstamp-form"))
 
-  <% if Rails.env.development? %>
-  url = "<%= StampImage.last.image.url %>"
+  url = "<%= image_url 'default_stamp.png' %>"
   Wetstamp.stamp = new Wetstamp.Stamp({id: -1, image: {url: url}})
   Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0]);
-  <% end %>
+  
