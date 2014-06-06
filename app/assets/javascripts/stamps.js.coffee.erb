@@ -56,12 +56,15 @@ class Wetstamp.Stamp
     @klass = preset.class
     @redraw()
 
-  setSize: (size) =>
-    @size = size
+  changeSize: (delta) =>
+    @size += delta
+    @size = Math.max(@size, 0) # Max sure it's not less than 0
     @redraw()
 
-  setTransparency: (transparency) =>
-    @transparency = transparency
+  changeTransparency: (delta) =>
+    @transparency += delta
+    @transparency = Math.max(@transparency, 0) # Max sure it's >= 0
+    @transparency = Math.min(@transparency, 1) # Max sure it's <= 1
     @redraw()
 
   redraw: =>
@@ -92,28 +95,15 @@ class Wetstamp.StampForm
 
     @el.find("button").on "click", (event) =>
       btn = $(event.currentTarget)
+
       delta = parseFloat(btn.data('delta'))
-      target = $("#"+btn.data('for'))
-
-      currentVal = parseFloat(target.val()) || 0
-      nextVal = currentVal + delta
-      max = parseInt(target.prop('max'))
-      min = parseInt(target.prop('min'))
-      if isFinite(max)
-        nextVal = Math.min(max, nextVal)
-      if isFinite(min)
-        nextVal = Math.max(min, nextVal)
-
-      target.val( nextVal )
-      target.trigger("change")
-
-    @el.find("input").on "change keyup", (event) ->
-      console.log $(@).val()
-      switch $(@).attr('id')
-        when "stamp_size"
-          Wetstamp.stamp.setSize $(@).val()
-        when "stamp_transparency"
-          Wetstamp.stamp.setTransparency 1 - ( $(@).val() / 100 )
+      
+      switch btn.data('for')
+        when "size"
+          Wetstamp.stamp.changeSize delta
+        when "transparency"
+          Wetstamp.stamp.changeTransparency delta
+      
 
 
     # Things we'll submit
@@ -141,5 +131,5 @@ $(document).ready ->
   <% if Rails.env.development? %>
   url = "<%= StampImage.last.image.url %>"
   Wetstamp.stamp = new Wetstamp.Stamp({id: -1, image: {url: url}})
-  Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0])
+  Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0]);
   <% end %>
