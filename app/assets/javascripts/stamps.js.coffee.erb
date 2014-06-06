@@ -113,7 +113,7 @@ class Wetstamp.StampForm
         when "stamp_size"
           Wetstamp.stamp.setSize $(@).val()
         when "stamp_transparency"
-          Wetstamp.stamp.setTransparency $(@).val() / 100
+          Wetstamp.stamp.setTransparency 1 - ( $(@).val() / 100 )
 
       # 
       # el.parent
