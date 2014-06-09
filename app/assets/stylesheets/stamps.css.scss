@@ -2,10 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.panel {
-  height: 100%;
+.preview {
+  margin-bottom: 20px;
+  background-color: #eee;
+  padding: 20px;
+  min-height: 100px;
+
   img{
     max-width: 100%;
+    max-height: 340px;
   }
 }
 
