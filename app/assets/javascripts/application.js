@@ -13,6 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
+//= require bootstrap
 //= require turbolinks
 //= require app
 //= require_tree .
+
+$(document).ready(function() {
+  $("[data-toggle='tooltip']").tooltip()
+});
