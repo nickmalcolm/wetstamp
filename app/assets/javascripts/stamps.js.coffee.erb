@@ -141,6 +141,21 @@ class Wetstamp.StampForm
       return false
     else
       console.log @stampImageId, @size, @transparency, @position, @rotate, @tiled
+      $.ajax
+        type: "POST"
+        url: '/stamps'
+        dataType: 'json'
+        data:
+          stamp:
+            stamp_image_id: @stampImageId
+            size:           @size
+            transparency:   @transparency
+            position:       @position
+            rotate:         @rotate
+            tiled:          @tiled
+      .success (data,status,response) ->
+        window.location = response.getResponseHeader('Location')
+
       return true
 
 $(document).ready ->
