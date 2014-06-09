@@ -58,7 +58,7 @@ class Wetstamp.Stamp
     @id = json.id
     @url = json.image.url
     @applyToForm()
-    @redraw
+    @redraw()
 
   setClassAndStyleFromPreset: (preset) =>
     @klass = preset.class
@@ -123,7 +123,7 @@ class Wetstamp.StampForm
     errors = []
     @el.find(".error-block").remove()
     @el.find(".has-error").removeClass('has-error')
-    
+
     unless @stampImageId?
       error = "You need to upload a watermark"
       errors.push error
