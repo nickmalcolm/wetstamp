@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" id="wetstamp-form">
 
   <div class="col-xs-12 col-md-8 col-md-push-4">
 
@@ -19,20 +19,24 @@
       </div>
     </div>
 
-    <p class="visible-md visible-lg">
-      <a href="#" class="btn btn-success btn-lg btn-block">Finalize &gt;</a>
-    </p>
+    <div class="visible-md visible-lg">
+      <p>
+        <button class="btn btn-success btn-lg btn-block submit">Finalize &gt;</button>
+      </p>
+    </div>
 
   </div>
 
   <div class="col-xs-12 col-md-4 col-md-pull-8">
-    <div class="row" id="wetstamp-form">
+    <div class="row">
       <div class="col-xs-12">
         <%= form_for(StampImage.new, url: upload_stamps_path, html: {multipart: :true}, remote: true) do |f| %>
 
           <div class="field">
             <h3>1) Upload your Stamp</h3>
-            <%= f.file_field :image %>
+            <div class="form-group">
+              <%= f.file_field :image %>
+            </div>
           </div>
 
         <% end %>
@@ -107,10 +111,10 @@
             
             <label for="stamp_size">Size</label><br />
 
-            <button class="btn btn-primary btn-half" type="button" data-delta="-5" data-for="size">
+            <button class="btn btn-primary btn-half delta" type="button" data-delta="-5" data-for="size">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
-            <button class="btn btn-primary btn-half" type="button" data-delta="5" data-for="size">
+            <button class="btn btn-primary btn-half delta" type="button" data-delta="5" data-for="size">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
 
@@ -119,10 +123,10 @@
             
             <label for="stamp_transparency">Transparency</label><br />
 
-            <button class="btn btn-primary btn-half" type="button" data-delta="0.05" data-for="transparency">
+            <button class="btn btn-primary btn-half delta" type="button" data-delta="0.05" data-for="transparency">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
-            <button class="btn btn-primary btn-half" type="button" data-delta="-0.05" data-for="transparency">
+            <button class="btn btn-primary btn-half delta" type="button" data-delta="-0.05" data-for="transparency">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
 
@@ -133,7 +137,7 @@
 
       <div class="col-xs-12 pull-right hidden-md hidden-lg">
         <p>
-          <a href="#" class="btn btn-success btn-lg btn-block">4) Finalize &gt;</a>
+          <button class="btn btn-success btn-lg btn-block submit">Finalize &gt;</button>
         </p>
       </div>
 

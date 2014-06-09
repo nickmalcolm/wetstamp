@@ -7,15 +7,16 @@ Wetstamp.DEFAULTS =
     rotate: 0
     position: <%= Magick::SouthEastGravity.to_i %>
     tiled: false
+    size: 25
+    transparency: 0.25
 
 class Wetstamp.StampPreset
 
   constructor: (el) ->
     @el = el
-    {@class, @rotate, @transparency, @position, @tiled, @translate} = $.extend( {}, Wetstamp.DEFAULTS, @el.data() );
+    {@class, @rotate, @position, @tiled} = $.extend( {}, Wetstamp.DEFAULTS, @el.data() );
     
     @el.on "click", () =>
-      @applyToForm()
       if Wetstamp.stamp?
         Wetstamp.stamp.setClassAndStyleFromPreset(@)
     @
@@ -34,8 +35,14 @@ class Wetstamp.Stamp
     @el = $("#watermark")
     @redraw()
     @class = ""
-    @size = 25
-    @transparency = 0.25
+    @size = Wetstamp.DEFAULTS.size
+    @transparency = Wetstamp.DEFAULTS.transparency
+    @
+
+  applyToForm: () ->
+    Wetstamp.form.stampImageId = @id
+    Wetstamp.form.size = @size
+    Wetstamp.form.transparency = @transparency
     @
 
   urlObject: =>
@@ -50,21 +57,25 @@ class Wetstamp.Stamp
   updateFile: (json) ->
     @id = json.id
     @url = json.image.url
+    @applyToForm()
     @redraw
 
   setClassAndStyleFromPreset: (preset) =>
     @klass = preset.class
+    preset.applyToForm()
     @redraw()
 
   changeSize: (delta) =>
     @size += delta
     @size = Math.max(@size, 0) # Max sure it's not less than 0
+    @applyToForm()
     @redraw()
 
   changeTransparency: (delta) =>
     @transparency += delta
     @transparency = Math.max(@transparency, 0) # Max sure it's >= 0
     @transparency = Math.min(@transparency, 1) # Max sure it's <= 1
+    @applyToForm()
     @redraw()
 
   redraw: =>
@@ -75,12 +86,12 @@ class Wetstamp.StampForm
 
   constructor: (el) ->
 
+    {@rotate, @position, @tiled, @size, @transparency} = Wetstamp.DEFAULTS
+
     @el = el
 
     # Things to watch and listen to
     @stampImageForm = @el.find("form#new_stamp_image")
-    @sizeInput = @el.find("input#stamp_size")
-    @transparencyInput = @el.find("input#stamp_transparency")
 
     @stampImageForm.find("input").on "change", () =>
       @stampImageForm.submit()
@@ -93,7 +104,7 @@ class Wetstamp.StampForm
         Wetstamp.stamp = new Wetstamp.Stamp(stamp_json)
         Wetstamp.stamp.setClassAndStyleFromPreset(Wetstamp.STAMP_PRESETS[0])
 
-    @el.find("button").on "click", (event) =>
+    @el.on "click", "button.delta", (event) ->
       btn = $(event.currentTarget)
 
       delta = parseFloat(btn.data('delta'))
@@ -103,21 +114,34 @@ class Wetstamp.StampForm
           Wetstamp.stamp.changeSize delta
         when "transparency"
           Wetstamp.stamp.changeTransparency delta
-      
-
-
-    # Things we'll submit
-    {@stampImageId, @size, @transparency, @position, @rotate, @tiled} = {}
+    .on "click", "button.submit", (event) =>
+      @submit()
 
     @
 
   errors: =>
     errors = []
-    errors.push "You need to upload a watermark" unless @stampImageId?
+    @el.find(".error-block").remove()
+    @el.find(".has-error").removeClass('has-error')
+    
+    unless @stampImageId?
+      error = "You need to upload a watermark"
+      errors.push error
+
+      input = @el.find("input#stamp_image_image").parent()
+      input.addClass("has-error")
+      input.append("<p class='help-block error-block'>#{error}</p>")
+      
+    errors
 
   submit: =>
-    return false if @errors().length
-    console.log @stampImageId, @size, @transparency, @position, @rotate, @tiled
+    errors = @errors()
+    if errors.length
+      console.warn errors
+      return false
+    else
+      console.log @stampImageId, @size, @transparency, @position, @rotate, @tiled
+      return true
 
 $(document).ready ->
 
