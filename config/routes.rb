@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     collection do
       post 'upload', to: "stamp_images#create"
     end
+    member do 
+      get :preview
+    end
   end
 
   controller :sessions do  

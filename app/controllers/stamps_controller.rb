@@ -1,7 +1,7 @@
 class StampsController < ApplicationController
   around_filter :shopify_session
   before_filter :require_shop
-  before_action :set_stamp, only: [:show, :edit, :update, :destroy]
+  before_action :set_stamp, only: [:show, :edit, :update, :destroy, :preview]
 
   # GET /stamps
   # GET /stamps.json
@@ -62,6 +62,10 @@ class StampsController < ApplicationController
       format.html { redirect_to stamps_url, notice: 'Stamp was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def preview
+    @products = ShopifyAPI::Product.all(limit: 5)
   end
 
 

@@ -1,0 +1,19 @@
+<h1>Preview</h1>
+
+<div class="row">
+  <div class="col-xs-12">
+    <p class="alert alert-info">
+      This is a final preview of how your watermark will look when applied to your product images. Double check everything looks OK!
+    </p>
+  </div>
+</div>
+
+<% @products.each do |product| %>
+  <% product.images.each do |image| %>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <%= image_tag image.src, class: "img-responsive" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
