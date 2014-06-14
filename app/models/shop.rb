@@ -23,4 +23,19 @@ class Shop < ActiveRecord::Base
     end
   end
 
+  def sync
+    connect_to_shopify
+
+    ShopifyAPI::Product.all.each do |shopify_product|
+      product = Product.create_with(shop: self).find_or_create_by(shopify_id: shopify_product.id)
+      product.title = shopify_product.title
+      product.save
+
+      shopify_product.images.each do |shopify_product_image|
+        product_image = ProductImage.create_with(product: product).find_or_create_by(shopify_id: shopify_product_image.id)
+      end
+
+    end
+  end
+
 end
