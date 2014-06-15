@@ -11,16 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140526105552) do
+ActiveRecord::Schema.define(version: 20140614053614) do
 
   create_table "product_images", force: true do |t|
     t.integer  "product_id"
     t.integer  "shopify_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "original_image"
+    t.string   "stamped_image"
+    t.datetime "last_stamped_at"
+    t.integer  "stamp_id"
   end
 
   add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
+  add_index "product_images", ["stamp_id"], name: "index_product_images_on_stamp_id", using: :btree
 
   create_table "products", force: true do |t|
     t.integer  "shop_id"
