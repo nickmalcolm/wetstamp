@@ -2,7 +2,8 @@ require 'test_helper'
 
 class StampsControllerTest < ActionController::TestCase
   setup do
-    @stamp = stamps(:one)
+    log_in shops(:apple)
+    @stamp = FactoryGirl.create(:stamp, shop: shops(:apple))
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class StampsControllerTest < ActionController::TestCase
 
   test "should create stamp" do
     assert_difference('Stamp.count') do
-      post :create, stamp: { image: @stamp.image, name: @stamp.name, position: @stamp.position, rotate: @stamp.rotate, shop_id: @stamp.shop_id, tiled: @stamp.tiled, transparency: @stamp.transparency }
+      post :create, stamp: @stamp.attributes
     end
 
     assert_redirected_to stamp_path(assigns(:stamp))
@@ -35,7 +36,7 @@ class StampsControllerTest < ActionController::TestCase
   end
 
   test "should update stamp" do
-    patch :update, id: @stamp, stamp: { image: @stamp.image, name: @stamp.name, position: @stamp.position, rotate: @stamp.rotate, shop_id: @stamp.shop_id, tiled: @stamp.tiled, transparency: @stamp.transparency }
+    patch :update, id: @stamp, stamp: @stamp.attributes
     assert_redirected_to stamp_path(assigns(:stamp))
   end
 

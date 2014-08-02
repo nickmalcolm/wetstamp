@@ -7,7 +7,6 @@ class StampsController < ApplicationController
   # GET /stamps.json
   def index
     @stamps = @current_shop.stamps
-    @products = ShopifyAPI::Product.all
   end
 
   # GET /stamps/1
@@ -30,7 +29,7 @@ class StampsController < ApplicationController
     @stamp = @current_shop.stamps.new(stamp_params)
 
     respond_to do |format|
-      if @stamp.save
+      if @stamp.save!
         format.html { redirect_to @stamp, notice: 'Stamp was successfully created.' }
         format.json { render :show, status: :created, location: @stamp }
       else
@@ -65,7 +64,7 @@ class StampsController < ApplicationController
   end
 
   def preview
-    @products = ShopifyAPI::Product.all(limit: 5)
+    @products = @current_shop.products.preload(:product_images)
   end
 
 

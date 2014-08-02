@@ -10,10 +10,12 @@ class ShopTest < ActiveSupport::TestCase
     shop = FactoryGirl.create(:shop)
     shop.expects(:connect_to_shopify)
 
-    image = stub(id: 12345)
+    image = stub(id: 12345, src: "http://cdn.shopify.com/123.jpg")
     product = stub(id: 67890, title: "FooBar")
     product.expects(:images).returns([image])
     ShopifyAPI::Product.expects(:all).returns([product])
+
+    WetstampUploader.any_instance.expects(:download!).with("http://cdn.shopify.com/123.jpg")
 
     assert_difference ["Product.count", "ProductImage.count"] do
       shop.sync

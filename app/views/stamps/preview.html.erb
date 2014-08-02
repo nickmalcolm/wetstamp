@@ -9,10 +9,15 @@
 </div>
 
 <% @products.each do |product| %>
-  <% product.images.each do |image| %>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1><%= product.title %></h1>
+    </div>
+  </div>
+  <% product.product_images.each do |image| %>
     <div class="row">
       <div class="col-xs-12 text-center">
-        <%= image_tag image.src, class: "img-responsive" %>
+        <%= image_tag image.original_image.url, class: "img-responsive" %>
       </div>
     </div>
   <% end %>

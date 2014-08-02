@@ -9,6 +9,11 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
+  def log_in(shop)
+    Shop.any_instance.stubs(:connect_to_shopify)
+    session[:shop_id] = shop.id
+  end
+
   # Add more helper methods to be used by all tests here...
 end
 

@@ -19,8 +19,12 @@
 
     <div class="preview text-center" id="watermark-preview">
       <div id="product-image">
-        <%= image_tag ShopifyAPI::Product.all.to_a.sample.images.sample.try(:src) %>
-
+        <% if image = preview_image_for(current_shop) %>
+          <%= image_tag image.original_image %>
+        <% else %>
+          <strong>Sorry, we can't find any of your product's images.</strong>
+        <% end %>
+        
         <div id="watermark">
         </div>
       </div>
@@ -152,7 +156,3 @@
   </div>
 
 </div>
-
-
-
-

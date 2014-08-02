@@ -6,5 +6,6 @@ FactoryGirl.define do
     rotate 0
     transparency 1
     position Magick::CenterGravity.to_i
+    stamp_image
   end
 end
