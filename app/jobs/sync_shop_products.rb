@@ -53,9 +53,8 @@ class SyncShopProducts
       product_image = product.product_images.find_or_initialize_by(
         shopify_id: shopify_product_image.id
       )
-      product.original_image_url = shopify_product_image.src
+      product_image.source_url = shopify_product_image.src
       product_image.save
-
     end
 
 end

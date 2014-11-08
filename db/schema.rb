@@ -18,8 +18,9 @@ ActiveRecord::Schema.define(version: 20140614053614) do
     t.integer  "shopify_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "shopify_updated_at"
-    t.integer  "original_image_url"
+    t.datetime "shopify_updated_at"
+    t.string   "source_url"
+    t.string   "original_image"
     t.integer  "stamped_image_id"
     t.integer  "stamp_id"
   end
@@ -32,8 +33,8 @@ ActiveRecord::Schema.define(version: 20140614053614) do
   create_table "stamped_images", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "original_image_url"
-    t.integer  "stamped_image_url"
+    t.string   "original_image"
+    t.string   "stamped_image"
     t.integer  "stamp_id"
     t.integer  "watermark_id"
     t.integer  "product_image_id"
@@ -46,7 +47,7 @@ ActiveRecord::Schema.define(version: 20140614053614) do
   create_table "products", force: true do |t|
     t.integer  "shop_id"
     t.integer  "shopify_id"
-    t.integer  "shopify_updated_at"
+    t.datetime "shopify_updated_at"
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
