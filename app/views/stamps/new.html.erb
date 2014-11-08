@@ -19,12 +19,7 @@
 
     <div class="preview text-center" id="watermark-preview">
       <div id="product-image">
-        <% if image = preview_image_for(current_shop) %>
-          <%= image_tag image.original_image %>
-        <% else %>
-          <strong>Sorry, we can't find any of your product's images.</strong>
-        <% end %>
-        
+        <%= image_tag preview_image_for(current_shop) %>
         <div id="watermark">
         </div>
       </div>
