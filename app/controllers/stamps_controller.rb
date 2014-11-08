@@ -76,6 +76,6 @@ class StampsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def stamp_params
-      params.require(:stamp).permit(:name, :stamp_image_id, :rotate, :transparency, :position, :tiled)
+      params.require(:stamp).permit(:name, :watermark_id, :rotate, :transparency, :position, :tiled)
     end
 end

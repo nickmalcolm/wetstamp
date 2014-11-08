@@ -2,7 +2,7 @@ class Shop < ActiveRecord::Base
   class ShopifySessionInvalidError < StandardError; end
 
   has_many :stamps
-  has_many :stamp_images
+  has_many :watermarks
   has_many :products
   has_many :product_images, through: :products
 

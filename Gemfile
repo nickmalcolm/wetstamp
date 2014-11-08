@@ -46,7 +46,7 @@ gem 'shopify_app', '~> 4.4.4'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'rmagick', '~> 2.13.3'
+gem 'rmagick', '~> 2.13.3', require: 'RMagick'
 gem 'resque', '~> 1.25.2'
 
 

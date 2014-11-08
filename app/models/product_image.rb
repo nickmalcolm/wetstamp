@@ -4,6 +4,7 @@ class ProductImage < ActiveRecord::Base
 
   belongs_to :product
   has_one :shop, through: :product
+  has_many :stamped_images
 
   validates :product, presence: true
   validates :shopify_id, presence: true, uniqueness: true

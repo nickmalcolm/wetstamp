@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class StampImageTest < ActiveSupport::TestCase
+class WatermarkTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

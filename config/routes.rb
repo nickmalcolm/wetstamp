@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   resources :stamps do
     collection do
-      post 'upload', to: "stamp_images#create"
+      post 'upload', to: "watermarks#create"
     end
     member do 
       get :preview

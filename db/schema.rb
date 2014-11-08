@@ -18,24 +18,42 @@ ActiveRecord::Schema.define(version: 20140614053614) do
     t.integer  "shopify_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "original_image"
-    t.string   "stamped_image"
-    t.datetime "last_stamped_at"
+    t.integer  "shopify_updated_at"
+    t.integer  "original_image_url"
+    t.integer  "stamped_image_id"
     t.integer  "stamp_id"
   end
 
   add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
+  add_index "product_images", ["shopify_id"], name: "index_product_images_on_shopify_id", using: :btree
+  add_index "product_images", ["stamped_image_id"], name: "index_product_images_on_stamped_image_id", using: :btree
   add_index "product_images", ["stamp_id"], name: "index_product_images_on_stamp_id", using: :btree
+
+  create_table "stamped_images", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "original_image_url"
+    t.integer  "stamped_image_url"
+    t.integer  "stamp_id"
+    t.integer  "watermark_id"
+    t.integer  "product_image_id"
+  end
+
+  add_index "stamped_images", ["stamp_id"], name: "index_stamped_images_on_stamp_id", using: :btree
+  add_index "stamped_images", ["watermark_id"], name: "index_stamped_images_on_watermark_id", using: :btree
+  add_index "stamped_images", ["product_image_id"], name: "index_stamped_images_on_product_image_id", using: :btree
 
   create_table "products", force: true do |t|
     t.integer  "shop_id"
     t.integer  "shopify_id"
+    t.integer  "shopify_updated_at"
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "products", ["shop_id"], name: "index_products_on_shop_id", using: :btree
+  add_index "products", ["shopify_id"], name: "index_products_on_shopify_id", using: :btree
 
   create_table "shops", force: true do |t|
     t.string   "domain"
@@ -48,15 +66,16 @@ ActiveRecord::Schema.define(version: 20140614053614) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+  add_index "products", ["shopify_id"], name: "index_shops_on_shopify_id", using: :btree
 
-  create_table "stamp_images", force: true do |t|
+  create_table "watermarks", force: true do |t|
     t.integer  "shop_id"
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "stamp_images", ["shop_id"], name: "index_stamp_images_on_shop_id", using: :btree
+  add_index "watermarks", ["shop_id"], name: "index_watermarks_on_shop_id", using: :btree
 
   create_table "stamps", force: true do |t|
     t.integer  "shop_id"
@@ -67,10 +86,10 @@ ActiveRecord::Schema.define(version: 20140614053614) do
     t.boolean  "tiled"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "stamp_image_id"
+    t.integer  "watermark_id"
   end
 
   add_index "stamps", ["shop_id"], name: "index_stamps_on_shop_id", using: :btree
-  add_index "stamps", ["stamp_image_id"], name: "index_stamps_on_stamp_image_id", using: :btree
+  add_index "stamps", ["watermark_id"], name: "index_stamps_on_watermark_id", using: :btree
 
 end

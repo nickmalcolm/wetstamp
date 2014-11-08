@@ -7,10 +7,10 @@ class Stamp < ActiveRecord::Base
   ]
 
   belongs_to :shop
-  belongs_to :stamp_image
+  belongs_to :watermark
 
   validates :shop, presence: true
-  validates :stamp_image, presence: true
+  validates :watermark, presence: true
   validates :rotate, numericality: {greater_than_or_equal_to: -360, less_than_or_equal_to: 360}
   validates :transparency, numericality: {greater_than_or_equal_to: 0, less_than_or_equal_to: 1}
   validates :position, inclusion: POSITIONS

@@ -40,7 +40,7 @@ class Wetstamp.Stamp
     @
 
   applyToForm: () ->
-    Wetstamp.form.stampImageId = @id
+    Wetstamp.form.watermarkId = @id
     Wetstamp.form.size = @size
     Wetstamp.form.transparency = @transparency
     @
@@ -91,12 +91,12 @@ class Wetstamp.StampForm
     @el = el
 
     # Things to watch and listen to
-    @stampImageForm = @el.find("form#new_stamp_image")
+    @watermarkForm = @el.find("form#new_watermark")
 
-    @stampImageForm.find("input").on "change", () =>
-      @stampImageForm.submit()
+    @watermarkForm.find("input").on "change", () =>
+      @watermarkForm.submit()
 
-    @stampImageForm.on "ajax:remotipartComplete", (e, data) ->
+    @watermarkForm.on "ajax:remotipartComplete", (e, data) ->
       stamp_json = JSON.parse(data.responseText)
       if Wetstamp.stamp?
         Wetstamp.stamp.updateFile(stamp_json)
@@ -124,11 +124,11 @@ class Wetstamp.StampForm
     @el.find(".error-block").remove()
     @el.find(".has-error").removeClass('has-error')
 
-    unless @stampImageId?
+    unless @watermarkId?
       error = "You need to upload a watermark"
       errors.push error
 
-      input = @el.find("input#stamp_image_image").parent()
+      input = @el.find("input#watermark_image").parent()
       input.addClass("has-error")
       input.append("<p class='help-block error-block'>#{error}</p>")
       
@@ -140,14 +140,14 @@ class Wetstamp.StampForm
       console.warn errors
       return false
     else
-      console.log @stampImageId, @size, @transparency, @position, @rotate, @tiled
+      console.log @watermarkId, @size, @transparency, @position, @rotate, @tiled
       $.ajax
         type: "POST"
         url: '/stamps'
         dataType: 'json'
         data:
           stamp:
-            stamp_image_id: @stampImageId
+            watermark_id: @watermarkId
             size:           @size
             transparency:   @transparency
             position:       @position
