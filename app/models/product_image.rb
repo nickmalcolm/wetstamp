@@ -1,6 +1,5 @@
 class ProductImage < ActiveRecord::Base
   mount_uploader :original_image, WetstampUploader
-  mount_uploader :stamped_image, WetstampUploader
 
   belongs_to :product
   has_one :shop, through: :product
@@ -8,5 +7,10 @@ class ProductImage < ActiveRecord::Base
 
   validates :product, presence: true
   validates :shopify_id, presence: true, uniqueness: true
+
+  def redownload_source_image
+    self.remote_original_image_url = source_url
+    save
+  end
 
 end

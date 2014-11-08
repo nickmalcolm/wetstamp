@@ -15,6 +15,8 @@ class SessionsController < ApplicationController
       shop.api_password = response['credentials']['token']
       shop.save
 
+      Resque.enqueue(SyncShopProducts, shop.id)
+
       session[:shop_id] = shop.id
 
       redirect_to return_address, notice: "Logged in"

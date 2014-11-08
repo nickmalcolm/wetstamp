@@ -55,6 +55,8 @@ class SyncShopProducts
       )
       product_image.source_url = shopify_product_image.src
       product_image.save
+
+      Resque.enqueue(ProductImageDownloader, product_image.id)
     end
 
 end
