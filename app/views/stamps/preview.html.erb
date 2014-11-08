@@ -1,24 +1,32 @@
-<h1>Preview</h1>
+<h1>Final Preview</h1>
 
 <div class="row">
   <div class="col-xs-12">
-    <p class="alert alert-info">
-      This is a final preview of how your watermark will look when applied to your product images. Double check everything looks OK!
+    <p>
+      Please wait while we generate some preview images.
     </p>
+    <% @product_images.each do |product_images| %>
+    <% end %>
   </div>
 </div>
 
-<% @products.each do |product| %>
-  <div class="row">
-    <div class="col-xs-12">
-      <h1><%= product.title %></h1>
-    </div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Ready to go?</h2>
+    <p>
+      If you're happy with how your watermark looks, click Apply My Watermark below.
+    </p>
+    <p>
+      <button class="btn btn-success btn-lg btn-block submit">Apply My Watermark</button>
+    </p>
+    <hr />
+    <h4>How long will it take?</h4>
+    <p>Each image usually takes one or two seconds to watermark and upload to your store.</p>
+    <h4>Is it permanent?</h4>
+    <p>
+      No. We save your original images, so if something isn't right you can undo your watermark.<br />
+      It costs the same amount to remove a watermark as is does to apply a watermark.
+    </p>
   </div>
-  <% product.product_images.each do |image| %>
-    <div class="row">
-      <div class="col-xs-12 text-center">
-        <%= image_tag image.original_image.url, class: "img-responsive" %>
-      </div>
-    </div>
-  <% end %>
-<% end %>
+</div>

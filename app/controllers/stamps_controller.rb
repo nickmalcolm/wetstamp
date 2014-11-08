@@ -64,7 +64,7 @@ class StampsController < ApplicationController
   end
 
   def preview
-    @products = @current_shop.products.preload(:product_images)
+    @product_images = @current_shop.product_images.sample(3)
   end
 
 
