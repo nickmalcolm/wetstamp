@@ -8,4 +8,10 @@ class ProductImage < ActiveRecord::Base
   validates :product, presence: true
   validates :shopify_id, presence: true, uniqueness: true
 
+  after_save :queue_image_download
+
+  def queue_image_download
+    Resque.enqueue(DownloadProductImage, id)
+  end
+
 end

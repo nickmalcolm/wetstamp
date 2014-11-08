@@ -46,7 +46,9 @@ gem 'shopify_app', '~> 4.4.4'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'rmagick'
+gem 'rmagick', '~> 2.13.3'
+gem 'resque', '~> 1.25.2'
+
 
 group :development, :test do
   gem 'factory_girl_rails'
