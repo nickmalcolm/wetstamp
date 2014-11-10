@@ -14,10 +14,8 @@ class ImageStamper
     puts "[ImageStamper] Stamping image"
 
     result = stamp_to_file(stamp, image, watermark)
-    puts result
-    puts result.path
 
-    puts "[ImageStamper] Saving StampedImage"
+    puts "[ImageStamper] Saving StampedImage from file at #{result.path}"
     stamped_image = StampedImage.create!(
       stamp: stamp,
       product_image: product_image,
@@ -25,8 +23,6 @@ class ImageStamper
       watermark: stamp.watermark,
       stamped_image: result
     )
-
-    # sleep(60)
 
     puts "[ImageStamper] Done. Created StampedImage##{stamped_image.id}"
 
@@ -43,10 +39,6 @@ class ImageStamper
     end
 
     def apply_stamp(stamp, image, watermark)
-      puts "[ImageStamper] Applying stamp"
-      puts image
-      puts watermark
-
       # Rotate the watermark
       watermark.rotate!(stamp.rotate) unless stamp.rotate.eql?(0)
 
@@ -65,7 +57,6 @@ class ImageStamper
     end
 
     def tile_watermark(image, watermark)
-      puts "[ImageStamper] Tiling watermark"
       canvas = transparent_canvas_for_image(image)
       canvas.composite_tiled(watermark)
     end
@@ -76,7 +67,6 @@ class ImageStamper
 
     def get_remote_image(url)
       downloaded_file = download_file(url)
-      puts "[ImageStamper] Reading downloaded file into Magick..."
       result = nil
       File.open downloaded_file.path do |file|
         result = Magick::Image.read(file).first
@@ -85,7 +75,6 @@ class ImageStamper
     end
 
     def download_file(url)
-      puts "[ImageStamper] Downloading file from #{url}"
       uri = URI(url)
       https = uri.scheme.eql?('https')
       http = Net::HTTP.new(uri.host, https ? 443 : 80)
@@ -98,14 +87,12 @@ class ImageStamper
         case response
         when Net::HTTPSuccess
           tempfile = Tempfile.new("ImageStamperDownload-", Dir.tmpdir, 'wb+').binmode
-          puts "[ImageStamper] Successful response. Saving image to tempfile at #{tempfile.path}"
 
           response.read_body do |chunk|
             tempfile.write chunk
           end
           tempfile.flush
 
-          puts "[ImageStamper] Tempfile saved."
           return tempfile
         end
       end
