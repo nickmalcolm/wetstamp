@@ -2,8 +2,12 @@ require 'net/https'
 class ImageStamper
   
   @queue = :default
+  
+  def self.perform(*args)
+    new.perform(*args)
+  end
 
-  def work(stamp_id, product_image_id)
+  def perform(stamp_id, product_image_id)
     stamp = Stamp.find(stamp_id)
     product_image = ProductImage.find(product_image_id)
 

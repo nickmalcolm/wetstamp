@@ -9,10 +9,11 @@ class ShopPreviews
 
   def generate_previews(regenerate=false)
     @product_images.each do |product_image|
-      if product_image.current_stamped_image.present? || regenerate
+      if product_image.current_stamped_image.nil? || regenerate
         product_image.create_stamped_image
       end
     end
+    true
   end
 
   def ready?
