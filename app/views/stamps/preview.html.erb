@@ -5,8 +5,12 @@
     <p>
       Please wait while we generate some preview images.
     </p>
-    <% @product_images.each do |product_images| %>
-    <% end %>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12 js-stamp-preview" data-url="<%= stamped_images_url(stamp: @stamp, format: :json) %>">
   </div>
 </div>
 

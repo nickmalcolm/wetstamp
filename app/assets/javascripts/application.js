@@ -13,9 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
+//= require handlebars.runtime
 //= require bootstrap
 //= require turbolinks
 //= require app
+//= require_tree ./templates
 //= require_tree .
 
 $(document).ready(function() {
