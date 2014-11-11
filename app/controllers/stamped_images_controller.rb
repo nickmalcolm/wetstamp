@@ -16,10 +16,17 @@ class StampedImagesController < ApplicationController
   private
 
     def shop_previews
-      @_shop_previews ||= current_shop.previews
+      @_shop_previews ||= current_shop.previews(stamp)
     end
 
     def stamped_images
       shop_previews.stamped_images
+    end
+
+    def stamp
+      if params[:stamp_id]
+        @_stamp ||= current_shop.stamps.find("#{params[:stamp_id]}".to_i)
+      end
+      @_stamp || nil
     end
 end

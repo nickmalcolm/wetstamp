@@ -33,8 +33,8 @@ class Shop < ActiveRecord::Base
     stamps.last
   end
 
-  def previews
-    ShopPreviews.new(self)
+  def previews(stamp=current_stamp)
+    ShopPreviews.new(self, stamp)
   end
 
 end

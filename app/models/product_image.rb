@@ -8,8 +8,8 @@ class ProductImage < ActiveRecord::Base
   validates :product, presence: true
   validates :shopify_id, presence: true, uniqueness: true
 
-  def current_stamped_image
-    stamped_images.last
+  def current_stamped_image(stamp=shop.current_stamp)
+    stamped_images.where(stamp: stamp).last
   end
 
   def redownload_source_image
@@ -17,8 +17,7 @@ class ProductImage < ActiveRecord::Base
     save
   end
 
-  def create_stamped_image
-    stamp = shop.current_stamp
+  def create_stamped_image(stamp=shop.current_stamp)
     Resque.enqueue(ImageStamper, stamp.id, id)
   end
 
