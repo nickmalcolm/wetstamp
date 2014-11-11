@@ -8,7 +8,6 @@ class Shop < ActiveRecord::Base
 
   validates :domain, presence: {allow_blank: false}, uniqueness: true
 
-  
   def admin_url
     "https://#{domain}/admin"
   end
@@ -27,6 +26,10 @@ class Shop < ActiveRecord::Base
 
   def queue_sync
     Resque.enqueue(SyncShopProducts, id)
+  end
+
+  def current_stamp
+    stamps.last
   end
 
 end
