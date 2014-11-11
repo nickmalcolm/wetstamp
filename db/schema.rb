@@ -21,14 +21,10 @@ ActiveRecord::Schema.define(version: 20140614053614) do
     t.datetime "shopify_updated_at"
     t.string   "source_url"
     t.string   "original_image"
-    t.integer  "stamped_image_id"
-    t.integer  "stamp_id"
   end
 
   add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
   add_index "product_images", ["shopify_id"], name: "index_product_images_on_shopify_id", using: :btree
-  add_index "product_images", ["stamped_image_id"], name: "index_product_images_on_stamped_image_id", using: :btree
-  add_index "product_images", ["stamp_id"], name: "index_product_images_on_stamp_id", using: :btree
 
   create_table "stamped_images", force: true do |t|
     t.datetime "created_at"
