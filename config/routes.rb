@@ -9,10 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :shops, only: [] do
-    resources :stamped_images, only: [:index, :show]
-  end
-
+  resources :stamped_images, only: [:index, :show]
+  
   controller :sessions do  
     get 'login' => :new
     post 'login' => :create
