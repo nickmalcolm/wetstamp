@@ -24,8 +24,12 @@ class ApplicationController < ActionController::Base
 
   def require_shop
     if current_shop.nil?
-      session[:return_to] = request.fullpath if request.get?
-      redirect_to login_path
+      if request.get? && request.html?
+        session[:return_to] = request.fullpath
+        redirect_to login_path
+      else
+        head :unauthorized
+      end
     end
   end
   

@@ -1,0 +1,1 @@
+json.partial! "stamped_image", stamped_image: @stamped_image

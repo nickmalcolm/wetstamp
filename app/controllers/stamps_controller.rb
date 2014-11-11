@@ -31,7 +31,7 @@ class StampsController < ApplicationController
     respond_to do |format|
       if @stamp.save!
         
-        ShopPreviews.new(@current_shop).generate_previews
+        @shop.previews.generate_previews
 
         format.html { redirect_to @stamp, notice: 'Stamp was successfully created.' }
         format.json { render :show, status: :created, location: @stamp }

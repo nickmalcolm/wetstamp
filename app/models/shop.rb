@@ -5,6 +5,7 @@ class Shop < ActiveRecord::Base
   has_many :watermarks
   has_many :products
   has_many :product_images, through: :products
+  has_many :stamped_images, through: :product_images
 
   validates :domain, presence: {allow_blank: false}, uniqueness: true
 
@@ -30,6 +31,10 @@ class Shop < ActiveRecord::Base
 
   def current_stamp
     stamps.last
+  end
+
+  def previews
+    ShopPreviews.new(self)
   end
 
 end

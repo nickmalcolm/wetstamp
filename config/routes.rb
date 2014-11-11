@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   resources :stamps do
     collection do
       post 'upload', to: "watermarks#create"
@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     member do 
       get :preview
     end
+  end
+
+  resources :shops, only: [] do
+    resources :stamped_images, only: [:index, :show]
   end
 
   controller :sessions do  

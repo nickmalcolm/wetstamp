@@ -11,8 +11,8 @@ class SessionsController < ApplicationController
     if response = request.env['omniauth.auth']
 
       # Create, or Find & Update, the Shop
-      shop = Shop.find_or_initialize_by(domain: params[:shop])
-      shop.api_password = response['credentials']['token']
+      shop = Shop.find_or_initialize_by(domain: "#{params[:shop]}")
+      shop.api_password = "#{response['credentials']['token']}"
       shop.save
 
       Resque.enqueue(SyncShopProducts, shop.id)
